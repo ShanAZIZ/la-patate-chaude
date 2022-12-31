@@ -6,3 +6,17 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1.0" }
+
+[[bin]]
+name = "client"
+path = "src/tcp/client.rs"
+
+[[bin]]
+name = "server"
+path = "src/tcp/server.rs"
+
+[[bin]]
+name = "serialization"
+path = "src/serialization/serialization.rs"
