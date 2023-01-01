@@ -19,4 +19,5 @@ fn main() {
     };
 
     println!("mesage: {}, complexity: {}", input.message, input.complexity);
+
 }
