@@ -32,7 +32,6 @@ pub mod utils {
         let mut i = 0;
         loop {
             let concatenated_seed = format!("{}{}", u64_to_hexadecimal_string(i), message);
-            println!("seed {}", concatenated_seed);
             let hash_string = hash(&concatenated_seed);
             let zeros = count_zeros(&hash_string);
             match zeros {
