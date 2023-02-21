@@ -29,14 +29,14 @@ fn hash(seed: &str) -> String {
     format!("{:x}", digest)
 }
 
-pub fn find_seed(message: &str, complexity: u32) -> MD5HashCashOutput  {
+pub fn find_seed(input: &MD5HashCashInput) -> MD5HashCashOutput  {
     for i in 0..u64::MAX {
-        let concatenated_seed = format!("{}{}", u64_to_hexadecimal_string(i), message);
+        let concatenated_seed = format!("{}{}", u64_to_hexadecimal_string(i), input.message);
         let hash_string = hash(&concatenated_seed);
         let zeros = count_zeros(&hash_string);
         match zeros {
             Ok(zeros) => {
-                if zeros >= complexity {
+                if zeros >= input.complexity {
                     return MD5HashCashOutput {
                         seed: i as u64,
                         hashcode: hash_string,
