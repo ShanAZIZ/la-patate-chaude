@@ -1,4 +1,3 @@
-
 use std::num::ParseIntError;
 
 // TODO: Multithreading
@@ -29,7 +28,7 @@ fn hash(seed: &str) -> String {
     format!("{:x}", digest)
 }
 
-pub fn find_seed(input: &MD5HashCashInput) -> MD5HashCashOutput  {
+pub fn find_seed(input: &MD5HashCashInput) -> MD5HashCashOutput {
     for i in 0..u64::MAX {
         let concatenated_seed = format!("{}{}", u64_to_hexadecimal_string(i), input.message);
         let hash_string = hash(&concatenated_seed);
@@ -43,10 +42,9 @@ pub fn find_seed(input: &MD5HashCashInput) -> MD5HashCashOutput  {
                     };
                 }
             }
-            Err(e) => panic!("error: cannot convert hexadecimal to binary: {}", e)
+            Err(e) => panic!("error: cannot convert hexadecimal to binary: {}", e),
         }
     }
 
     panic!("error: seed not fount");
-
 }

@@ -11,20 +11,23 @@ pub struct MonstrousMazeOutput {
 
 struct Maze {
     grid: Vec<Vec<char>>,
-    start_pos : (usize, usize),
-    end_pos : (usize, usize)
+    start_pos: (usize, usize),
+    end_pos: (usize, usize),
 }
 
 pub fn find_path(input: &MonstrousMazeInput) {
     let maze = from_str_to_vec(&input.grid);
-    let path = write_path(maze.grid, maze.start_pos, maze.end_pos, input.endurance as i32);
+    let path = write_path(
+        maze.grid,
+        maze.start_pos,
+        maze.end_pos,
+        input.endurance as i32,
+    );
     match path {
-        Some(x) => MonstrousMazeOutput{
-            path: x,
-        },
+        Some(x) => MonstrousMazeOutput { path: x },
         None => MonstrousMazeOutput {
-            path: "".to_string() // TODO: manage another way
-        }
+            path: "".to_string(), // TODO: manage another way
+        },
     };
 }
 
@@ -48,11 +51,16 @@ fn from_str_to_vec(grid: &String) -> Maze {
     Maze {
         grid,
         start_pos,
-        end_pos
+        end_pos,
     }
 }
 
-fn write_path(maze: Vec<Vec<char>>, depart: (usize, usize), arrivee: (usize, usize), endurance: i32) -> Option<String> {
+fn write_path(
+    maze: Vec<Vec<char>>,
+    depart: (usize, usize),
+    arrivee: (usize, usize),
+    endurance: i32,
+) -> Option<String> {
     let mut queue: VecDeque<(usize, usize, String, i32)> = VecDeque::new();
     let mut visites: Vec<Vec<bool>> = vec![vec![false; maze[0].len()]; maze.len()];
 
@@ -67,9 +75,18 @@ fn write_path(maze: Vec<Vec<char>>, depart: (usize, usize), arrivee: (usize, usi
         let deplacements: [(i32, i32); 4] = [(0, 1), (0, -1), (1, 0), (-1, 0)];
         for (dl, dc) in deplacements.iter() {
             let (nouvelle_ligne, nouvelle_colonne) = (ligne as i32 + dl, colonne as i32 + dc);
-            if nouvelle_ligne >= 0 && nouvelle_ligne < maze.len() as i32 && nouvelle_colonne >= 0 && nouvelle_colonne < maze[0].len() as i32 {
-                let (nouvelle_ligne, nouvelle_colonne) = (nouvelle_ligne as usize, nouvelle_colonne as usize);
-                if !visites[nouvelle_ligne][nouvelle_colonne] && maze[nouvelle_ligne][nouvelle_colonne] == ' ' || maze[nouvelle_ligne][nouvelle_colonne] == 'M' || maze[nouvelle_ligne][nouvelle_colonne] == 'X' {
+            if nouvelle_ligne >= 0
+                && nouvelle_ligne < maze.len() as i32
+                && nouvelle_colonne >= 0
+                && nouvelle_colonne < maze[0].len() as i32
+            {
+                let (nouvelle_ligne, nouvelle_colonne) =
+                    (nouvelle_ligne as usize, nouvelle_colonne as usize);
+                if !visites[nouvelle_ligne][nouvelle_colonne]
+                    && maze[nouvelle_ligne][nouvelle_colonne] == ' '
+                    || maze[nouvelle_ligne][nouvelle_colonne] == 'M'
+                    || maze[nouvelle_ligne][nouvelle_colonne] == 'X'
+                {
                     let mut nouveau_chemin = chemin.clone();
                     match (dl, dc) {
                         (0, 1) => nouveau_chemin.push('>'),
@@ -86,7 +103,12 @@ fn write_path(maze: Vec<Vec<char>>, depart: (usize, usize), arrivee: (usize, usi
                     };
 
                     if nouvelle_endurance > 0 {
-                        queue.push_back((nouvelle_ligne, nouvelle_colonne, nouveau_chemin, nouvelle_endurance));
+                        queue.push_back((
+                            nouvelle_ligne,
+                            nouvelle_colonne,
+                            nouveau_chemin,
+                            nouvelle_endurance,
+                        ));
                         visites[nouvelle_ligne][nouvelle_colonne] = true;
                     }
                 }
@@ -96,7 +118,6 @@ fn write_path(maze: Vec<Vec<char>>, depart: (usize, usize), arrivee: (usize, usi
 
     None
 }
-
 
 fn dir(dx: i32, dy: i32) -> &'static str {
     match (dx, dy) {
