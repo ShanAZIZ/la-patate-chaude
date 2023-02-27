@@ -1,14 +1,17 @@
 use std::num::ParseIntError;
+use serde::{Serialize, Deserialize};
 
 // TODO: Multithreading
 // TODO: Optimize counting zeros
 // TODO: Remove panic and manage error
 
+#[derive(Debug, Serialize, Deserialize)]
 pub struct MD5HashCashInput {
     pub complexity: u32,
     pub message: String,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
 pub struct MD5HashCashOutput {
     pub seed: u64,
     pub hashcode: String,

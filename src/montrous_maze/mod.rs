@@ -1,10 +1,13 @@
 use std::collections::{HashSet, VecDeque};
+use serde::{Serialize, Deserialize};
 
+#[derive(Debug, Serialize, Deserialize)]
 pub struct MonstrousMazeInput {
     pub grid: String,
     pub endurance: u32,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
 pub struct MonstrousMazeOutput {
     pub path: String,
 }
@@ -15,7 +18,7 @@ struct Maze {
     end_pos: (usize, usize),
 }
 
-pub fn find_path(input: &MonstrousMazeInput) {
+pub fn find_path(input: &MonstrousMazeInput) -> MonstrousMazeOutput {
     let maze = from_str_to_vec(&input.grid);
     let path = write_path(
         maze.grid,
@@ -23,7 +26,7 @@ pub fn find_path(input: &MonstrousMazeInput) {
         maze.end_pos,
         input.endurance as i32,
     );
-    match path {
+    return match path {
         Some(x) => MonstrousMazeOutput { path: x },
         None => MonstrousMazeOutput {
             path: "".to_string(), // TODO: manage another way
