@@ -154,9 +154,12 @@ pub fn message_challenge(stream: &mut TcpStream, challenge: Challenge, leaderboa
         _ => unreachable!()
     }
 
-    while current_player == index {
-        index = rng.gen_range(0..leaderboard.len());
+    if leaderboard.len() > 1 {
+        while current_player == index {
+            index = rng.gen_range(0..leaderboard.len());
+        }
     }
+
 
     let challenge_result = ChallengeResult {
         answer: challenge_answer,

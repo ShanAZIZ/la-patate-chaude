@@ -18,7 +18,7 @@ pub struct MD5HashCashOutput {
 }
 
 pub fn u64_to_hexadecimal_string(i: u64) -> String {
-    format!("{:016x}", i)
+    format!("{:016X}", i)
 }
 
 fn count_zeros(hexadecimal: &str) -> Result<u32, ParseIntError> {
@@ -28,7 +28,7 @@ fn count_zeros(hexadecimal: &str) -> Result<u32, ParseIntError> {
 
 fn hash(seed: &str) -> String {
     let digest = md5::compute(seed.as_bytes());
-    format!("{:x}", digest)
+    format!("{:X}", digest)
 }
 
 pub fn find_seed(input: &MD5HashCashInput) -> MD5HashCashOutput {
@@ -39,6 +39,9 @@ pub fn find_seed(input: &MD5HashCashInput) -> MD5HashCashOutput {
         match zeros {
             Ok(zeros) => {
                 if zeros >= input.complexity {
+                    println!("Concatenated seed : {}", concatenated_seed);
+                    println!("Hash : {}", hash_string);
+
                     return MD5HashCashOutput {
                         seed: i as u64,
                         hashcode: hash_string,
